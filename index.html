@@ -1,31 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Instascan</title>
-    <script type="text/javascript" src="instascan.min.js"></script>
+    <meta charset="UTF-8" />
+    <title></title>
   </head>
   <body>
-    <span>Capturar nota</span>
+    <span>nota fiscal</span>
     <video id="preview"></video>
-    <span>Capturar nota</span>
-    <script type="text/javascript">
-      let scanner = new Instascan.Scanner({
-        video: document.getElementById("preview"),
-      });
-      scanner.addListener("scan", function (content) {
-        alert(content);
-      });
-      Instascan.Camera.getCameras()
-        .then(function (cameras) {
-          if (cameras.length > 0) {
-            scanner.start(cameras[0]);
-          } else {
-            console.error("No cameras found.");
-          }
-        })
-        .catch(function (e) {
-          console.error(e);
-        });
-    </script>
   </body>
+  <script type="module">
+    import QrScanner from "./vendor/qr-scanner.min.js";
+    QrScanner.WORKER_PATH = "./vendor/qr-scanner-worker.min.js";
+
+    const video = document.getElementById("preview");
+
+    const qrScanner = new QrScanner(video, (result) =>
+      alert("decoded qr code:", result)
+    );
+
+    qrScanner.start();
+  </script>
 </html>
