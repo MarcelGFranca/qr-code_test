@@ -7,18 +7,31 @@
   <body>
     <span>nota fiscal</span>
     <video id="preview"></video>
+
+    <h1>Scan from file</h1>
+    <input type="file" id="file-selector" />
   </body>
   <script type="module">
     import QrScanner from "./vendor/qr-scanner.min.js";
     QrScanner.WORKER_PATH = "./vendor/qr-scanner-worker.min.js";
 
     const video = document.getElementById("preview");
+    const fileSelector = document.getElementById("file-selector");
 
     const qrScanner = new QrScanner(video, (result) =>
-      // invoiceNumber = result.substring(0, 44);
       alert("decoded qr code: " + result.substring(0, 44))
     );
 
     qrScanner.start();
+
+    fileSelector.addEventListener("change", (event) => {
+      const file = fileSelector.files[0];
+      if (!file) {
+        return;
+      }
+      QrScanner.scanImage(file)
+        .then((result) => alert("decoded qr code: " + result.substring(0, 44)))
+        .catch((e) => alert(result || "no qr code found."));
+    });
   </script>
 </html>
