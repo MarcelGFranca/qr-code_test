@@ -15,8 +15,8 @@
     const video = document.getElementById("preview");
 
     const qrScanner = new QrScanner(video, (result) =>
-      invoiceNumber = result.substring(0, 44);
-      alert("decoded qr code: " + invoiceNumber)
+      // invoiceNumber = result.substring(0, 44);
+      alert("decoded qr code: " + result.substring(0, 44))
     );
 
     qrScanner.start();
