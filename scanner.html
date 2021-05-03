@@ -11,6 +11,10 @@
   <script type="module">
     const video = document.getElementById("preview");
 
-    console.log(video);
+    const qrScanner = new QrScanner(video, (result) =>
+      alert("decoded qr code:", result)
+    );
+
+    qrScanner.start();
   </script>
 </html>
