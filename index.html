@@ -5,15 +5,21 @@
     <title></title>
   </head>
   <body>
-    <span>nota fiscal</span>
-    <video id="preview" style="width: 400px; height: 400px"></video>
+    <div class="box" style="display: block">
+      <span>nota fiscal</span>
+      <video id="preview" style="width: 400px; height: 400px"></video>
+    </div>
 
-    <button id="flash-toggle" style="width: 200px; height: 100px">
-      flash <span id="flash-state"></span>
-    </button>
+    <div class="box" style="display: block">
+      <button id="flash-toggle" style="width: 200px; height: 100px">
+        flash <span id="flash-state"></span>
+      </button>
+    </div>
 
-    <h1>Scan from file</h1>
-    <input type="file" id="file-selector" />
+    <div class="box" style="display: block">
+      <h1>Scan from file</h1>
+      <input type="file" id="file-selector" />
+    </div>
   </body>
   <script type="module">
     import QrScanner from "./vendor/qr-scanner.min.js";
@@ -25,6 +31,7 @@
     const flashToggle = document.getElementById("flash-toggle");
     const flashState = document.getElementById("flash-state");
     const camHasFlash = document.getElementById("cam-has-flash");
+    const camList = document.getElementById("cam-list");
 
     const qrScanner = new QrScanner(video, (result) =>
       alert("decoded qr code: " + result.substring(0, 44))
@@ -48,7 +55,21 @@
       });
     };
 
-    qrScanner.start();
+    qrScanner.start().then(() => {
+      updateFlashAvaiability();
+      QrScanner.listCameras(true).then((cameras) =>
+        cameras.forEach((camera) => {
+          const option = document.createElement("option");
+          option.value = camera.id;
+          option.text = camera.label;
+          camList.add(option);
+        })
+      );
+    });
+
+    camList.addEventListener("change", (event) => {
+      qrScanner.setCamera(event.target.value).then(updateFlashAvaiability);
+    });
 
     fileSelector.addEventListener("change", (event) => {
       const file = fileSelector.files[0];
