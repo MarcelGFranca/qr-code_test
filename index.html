@@ -8,6 +8,8 @@
     <span>nota fiscal</span>
     <video id="preview"></video>
 
+    <button id="flash-toggle">flash <span id="flash-state"></span></button>
+
     <h1>Scan from file</h1>
     <input type="file" id="file-selector" />
   </body>
@@ -18,9 +20,31 @@
     const video = document.getElementById("preview");
     const fileSelector = document.getElementById("file-selector");
 
+    const flashToggle = document.getElementById("flash-toggle");
+    const flashState = document.getElementById("flash-state");
+    const camHasFlash = document.getElementById("cam-has-flash");
+
     const qrScanner = new QrScanner(video, (result) =>
       alert("decoded qr code: " + result.substring(0, 44))
     );
+
+    document.getElementById("flash-toggle").addEventListener("click", () => {
+      qrScanner
+        .toggleFlash()
+        .then(
+          () =>
+            (flashState.textContent = qrScanner.isFlashOn()
+              ? "ligado"
+              : "desligado")
+        );
+    });
+
+    const updateFlashAvaiability = () => {
+      qrScanner.hasFlash().then((hasFlash) => {
+        alert(hasFlash);
+        flashToggle.style.display = hasFlash ? "inline-block" : "none";
+      });
+    };
 
     qrScanner.start();
 
