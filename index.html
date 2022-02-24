@@ -53,6 +53,8 @@
         );
     });
 
+    qrScanner.setCamera("enviroment");
+
     const updateFlashAvaiability = () => {
       qrScanner.hasFlash().then((hasFlash) => {
         alert(hasFlash);
