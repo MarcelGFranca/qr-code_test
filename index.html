@@ -60,6 +60,10 @@
       });
     };
 
+    camList.addEventListener("change", (event) => {
+      qrScanner.setCamera(event.target.value).then(updateFlashAvaiability);
+    });
+
     qrScanner.start().then(() => {
       updateFlashAvaiability();
       QrScanner.listCameras(true).then((cameras) =>
@@ -70,10 +74,6 @@
           camList.add(option);
         })
       );
-    });
-
-    camList.addEventListener("change", (event) => {
-      qrScanner.setCamera(event.target.value).then(updateFlashAvaiability);
     });
 
     fileSelector.addEventListener("change", (event) => {
