@@ -64,7 +64,7 @@
 
     camList.addEventListener("change", (event) => {
       qrScanner.setCamera(event.target.value).then(updateFlashAvaiability);
-      alert(event);
+      alert(JSON.stringify(event));
     });
 
     qrScanner.start().then(() => {
