@@ -68,6 +68,7 @@
 
     qrScanner.start().then(() => {
       updateFlashAvaiability();
+      alert(cameras);
       QrScanner.listCameras(true).then((cameras) =>
         cameras.forEach((camera) => {
           const option = document.createElement("option");
