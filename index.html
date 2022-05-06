@@ -53,8 +53,8 @@
         );
     });
 
-    // qrScanner.setCamera("enviroment");
-    qrScanner.setCamera("user");
+    qrScanner.setCamera("enviroment");
+    // qrScanner.setCamera("user");
 
     const updateFlashAvaiability = () => {
       qrScanner.hasFlash().then((hasFlash) => {
@@ -76,6 +76,7 @@
           option.value = camera.id;
           option.text = camera.label;
           alert(camera.label);
+          alert(camera.id);
           camList.add(option);
         })
       );
